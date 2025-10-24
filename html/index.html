@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empresa - Página Principal</title>
+  <link rel="icon" href="../img/logo.png" type="image/png">
+  
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <link rel="stylesheet" href="../css/index_style.css" />
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img
+          src="../img/logo.png" alt="Logotipo de la empresa"
+          height="40"
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarContent"
+        aria-controls="navbarContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contacto</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#branches">Sucursales</a>
+          </li>
+          <li class="nav-item ms-3">
+            <button
+              class="btn btn-outline-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal"
+            >
+              Iniciar Sesión
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div
+    class="modal fade"
+    id="loginModal"
+    tabindex="-1"
+    aria-labelledby="loginModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="loginForm" novalidate>
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="loginEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="loginEmail"
+                required
+                placeholder="tu@email.com"
+              />
+              <div class="invalid-feedback">Por favor ingresa un email válido.</div>
+            </div>
+            <div class="mb-3">
+              <label for="loginPassword" class="form-label">Contraseña</label>
+              <input
+                type="password"
+                class="form-control"
+                id="loginPassword"
+                required
+                placeholder="Contraseña"
+              />
+              <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="section-title">Promociones Especiales</h2>
+      <div
+        id="promoCarousel"
+        class="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="4000"
+      >
+        <div class="carousel-indicators">
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="0"
+            class="active"
+            aria-current="true"
+            aria-label="Promoción 1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="1"
+            aria-label="Promoción 2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="2"
+            aria-label="Promoción 3"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="3"
+            aria-label="Promoción 4"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="4"
+            aria-label="Promoción 5"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="5"
+            aria-label="Promoción 6"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="6"
+            aria-label="Promoción 7"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#promoCarousel"
+            data-bs-slide-to="7"
+            aria-label="Promoción 8"
+          ></button>
+        </div>
+        <div class="carousel-inner rounded-3 shadow-sm">
+          <div class="carousel-item active">
+            <img
+              src="../img/1.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 1 - Ofertas exclusivas"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 1</h3>
+              <p>Descuentos increíbles en productos seleccionados</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../img/2.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 2 - Productos destacados"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 2</h3>
+              <p>Los mejores productos con descuentos limitados</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../img/3.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 3 - Ofertas de temporada"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 3</h3>
+              <p>Aprovecha nuestras ofertas de temporada</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../img/4.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 4 - Descuentos exclusivos"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 4</h3>
+              <p>Descuentos exclusivos para clientes frecuentes</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../img/5.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 5 - Lanzamientos nuevos"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 5</h3>
+              <p>Nuevos lanzamientos con precios especiales</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../img/6.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 6 - Ofertas flash"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 6</h3>
+              <p>Ofertas flash por tiempo limitado</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../img/7.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 7 - Productos premium"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 7</h3>
+              <p>Productos premium con descuentos especiales</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../img/8.jpg" class="d-block w-100 carousel-image"
+              alt="Promoción especial 8 - Ofertas finales"
+            />
+            <div class="carousel-caption d-none d-md-block rounded p-3">
+              <h3>Oferta Especial 8</h3>
+              <p>Últimas oportunidades con descuentos increíbles</p>
+            </div>
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#promoCarousel"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#promoCarousel"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="branches" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="section-title">Nuestras Sucursales</h2>
+      <p class="text-center text-muted mb-4">Algunas de nuestras sucursales son móviles y rotan sus posiciones para mejor cobertura. Verifica su ubicación actual en el mapa. Cada sucursal cubre un radio de 20km.</p>
+      
+      <form id="filterForm" class="row g-3 mb-4 p-3 bg-white rounded shadow-sm align-items-end">
+        <div class="col-md-5">
+          <label for="filterName" class="form-label fw-bold">Filtrar por Nombre</label>
+          <input type="text" class="form-control" id="filterName" placeholder="Ej: Sucursal Centro">
+        </div>
+        <div class="col-md-4">
+          <label for="filterType" class="form-label fw-bold">Filtrar por Tipo</label>
+          <select id="filterType" class="form-select">
+            <option value="todos" selected>Todos</option>
+            <option value="fijo">Fijo</option>
+            <option value="movil">Móvil</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button type="button" id="clearFilters" class="btn btn-outline-secondary w-100">Limpiar Filtros</button>
+        </div>
+      </form>
+
+      <div id="noResults" class="alert alert-warning" style="display: none;">
+        No se encontraron sucursales con esos criterios.
+      </div>
+
+      <div id="map">
+        <div class="map-loading">
+          <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Cargando mapa...</span>
+          </div>
+          <p>Cargando mapa interactivo...</p>
+        </div>
+      </div>
+      <div id="distanceInfo" class="distance-info" style="display: none;"></div>
+      
+      <div class="row g-4 mt-4">
+        
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-centro">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal centro"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Centro <span class="mobile-indicator">Fija</span></h5>
+              <p class="card-text" id="centro-address">Av. Corrientes 123, CABA (Lat: -34.6037, Lng: -58.3816)</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Lunes a Sábado 9:00 - 20:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-7890</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-oeste">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal oeste"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Oeste <span class="mobile-indicator">Fija</span></h5>
+              <p class="card-text" id="oeste-address">Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Lunes a Sábado 9:00 - 20:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-1111</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-palermo">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal palermo"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Palermo <span class="mobile-indicator">Fija</span></h5>
+              <p class="card-text" id="palermo-address">Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Lunes a Viernes 10:00 - 21:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-2222</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+         <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-belgrano">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal belgrano"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Belgrano <span class="mobile-indicator">Fija</span></h5>
+              <p class="card-text" id="belgrano-address">Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Lunes a Sábado 10:00 - 19:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-3333</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-norte">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal norte móvil"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Norte <span class="mobile-indicator">Móvil</span></h5>
+              <p class="card-text" id="norte-address">Posición actual: Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Lunes a Domingo 10:00 - 22:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-7891</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-sur">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal sur móvil"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Sur <span class="mobile-indicator">Móvil</span></h5>
+              <p class="card-text" id="sur-address">Posición actual: Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Lunes a Viernes 8:00 - 18:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-7892</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-movil1">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal móvil 1"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Móvil 1 <span class="mobile-indicator">Móvil</span></h5>
+              <p class="card-text" id="movil1-address">Posición actual: Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Martes a Domingo 12:00 - 20:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-9001</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+         <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-movil2">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal móvil 2"
+            />
+            <div classs="card-body">
+              <h5 class="card-title">Sucursal Móvil 2 <span class="mobile-indicator">Móvil</span></h5>
+              <p class="card-text" id="movil2-address">Posición actual: Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Jueves a Lunes 11:00 - 19:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-9002</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+         <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm" id="card-movil3">
+            <img
+              src="../img/logo.png" class="card-img-top"
+              alt="Sucursal móvil 3"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Sucursal Móvil 3 <span class="mobile-indicator">Móvil</span></h5>
+              <p class="card-text" id="movil3-address">Posición actual: Actualizándose...</p>
+              <p class="mb-0">
+                <small class="text-muted"
+                  ><i class="fas fa-clock me-2"></i>Lunes a Lunes 10:00 - 22:00</small
+                >
+              </p>
+              <p>
+                <small class="text-muted"
+                  ><i class="fas fa-phone me-2"></i>(11) 456-9003</small
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-5">
+    <div class="container">
+      <h2 class="section-title">Contacto</h2>
+      <div class="row g-5 justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h5>Dirección Corporativa</h5>
+          <p>Av. Central #1000, CABA</p>
+          <h5>Teléfono</h5>
+          <p>(11) 456-7800</p>
+          <h5>Email</h5>
+          <p>info@empresa.com</p>
+          <h5>Horario de Atención</h5>
+          <p>
+            Lunes a Viernes: 8:00 - 18:00<br />
+            Sábados: 9:00 - 14:00
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2024 Empresa. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <script src="../js/index_script.js"></script>
+
+</body>
+</html>
