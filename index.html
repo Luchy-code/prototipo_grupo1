@@ -55,13 +55,6 @@
             <a class="nav-link" href="#branches">Sucursales</a>
           </li>
           <li class="nav-item ms-3">
-            <button
-              class="btn btn-outline-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#loginModal"
-            >
-              Iniciar Sesión
-            </button>
           </li>
         </ul>
       </div>
@@ -284,248 +277,24 @@
     </div>
   </section>
 
-  <section id="branches" class="py-5 bg-light">
+  <section class="estilosMapa" id="branches" class="py-5 bg-light">
     <div class="container">
-      <h2 class="section-title">Nuestras Sucursales</h2>
-      <p class="text-center text-muted mb-4">Algunas de nuestras sucursales son móviles y rotan sus posiciones para mejor cobertura. Verifica su ubicación actual en el mapa. Cada sucursal cubre un radio de 20km.</p>
-      
-      <form id="filterForm" class="row g-3 mb-4 p-3 bg-white rounded shadow-sm align-items-end">
-        <div class="col-md-5">
-          <label for="filterName" class="form-label fw-bold">Filtrar por Nombre</label>
-          <input type="text" class="form-control" id="filterName" placeholder="Ej: Sucursal Centro">
-        </div>
-        <div class="col-md-4">
-          <label for="filterType" class="form-label fw-bold">Filtrar por Tipo</label>
-          <select id="filterType" class="form-select">
-            <option value="todos" selected>Todos</option>
-            <option value="fijo">Fijo</option>
-            <option value="movil">Móvil</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <button type="button" id="clearFilters" class="btn btn-outline-secondary w-100">Limpiar Filtros</button>
-        </div>
-      </form>
+      <div id="sidebar">
+        <h2>Centros de Asistencia</h2>
 
-      <div id="noResults" class="alert alert-warning" style="display: none;">
-        No se encontraron sucursales con esos criterios.
+        <button id="reset-view">Mostrar Todos</button>
+
+        <label for="filter-type">Filtrar por tipo:</label>
+        <select id="filter-type">
+          <option value="" disabled selected>Seleccione un filtro...</option>
+          <option value="fijo">Solo Fijos</option>
+          <option value="móvil">Solo Móviles</option>
+        </select>
+
+        <ul id="center-list"></ul>
       </div>
 
-      <div id="map">
-        <div class="map-loading">
-          <div class="spinner-border text-primary mb-3" role="status">
-            <span class="visually-hidden">Cargando mapa...</span>
-          </div>
-          <p>Cargando mapa interactivo...</p>
-        </div>
-      </div>
-      <div id="distanceInfo" class="distance-info" style="display: none;"></div>
-      
-      <div class="row g-4 mt-4">
-        
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-centro">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal centro"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Centro <span class="mobile-indicator">Fija</span></h5>
-              <p class="card-text" id="centro-address">Av. Corrientes 123, CABA (Lat: -34.6037, Lng: -58.3816)</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Lunes a Sábado 9:00 - 20:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-7890</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-oeste">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal oeste"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Oeste <span class="mobile-indicator">Fija</span></h5>
-              <p class="card-text" id="oeste-address">Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Lunes a Sábado 9:00 - 20:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-1111</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-palermo">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal palermo"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Palermo <span class="mobile-indicator">Fija</span></h5>
-              <p class="card-text" id="palermo-address">Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Lunes a Viernes 10:00 - 21:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-2222</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-belgrano">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal belgrano"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Belgrano <span class="mobile-indicator">Fija</span></h5>
-              <p class="card-text" id="belgrano-address">Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Lunes a Sábado 10:00 - 19:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-3333</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-norte">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal norte móvil"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Norte <span class="mobile-indicator">Móvil</span></h5>
-              <p class="card-text" id="norte-address">Posición actual: Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Lunes a Domingo 10:00 - 22:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-7891</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-sur">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal sur móvil"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Sur <span class="mobile-indicator">Móvil</span></h5>
-              <p class="card-text" id="sur-address">Posición actual: Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Lunes a Viernes 8:00 - 18:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-7892</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-movil1">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal móvil 1"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Móvil 1 <span class="mobile-indicator">Móvil</span></h5>
-              <p class="card-text" id="movil1-address">Posición actual: Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Martes a Domingo 12:00 - 20:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-9001</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-movil2">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal móvil 2"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Móvil 2 <span class="mobile-indicator">Móvil</span></h5>
-              <p class="card-text" id="movil2-address">Posición actual: Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Jueves a Lunes 11:00 - 19:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-9002</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-         <div class="col-md-6 col-lg-4">
-          <div class="card h-100 shadow-sm" id="card-movil3">
-            <img
-              src="img/logo.png" class="card-img-top"
-              alt="Sucursal móvil 3"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Sucursal Móvil 3 <span class="mobile-indicator">Móvil</span></h5>
-              <p class="card-text" id="movil3-address">Posición actual: Actualizándose...</p>
-              <p class="mb-0">
-                <small class="text-muted"
-                  ><i class="fas fa-clock me-2"></i>Lunes a Lunes 10:00 - 22:00</small
-                >
-              </p>
-              <p>
-                <small class="text-muted"
-                  ><i class="fas fa-phone me-2"></i>(11) 456-9003</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <div id="map"></div>
     </div>
   </section>
 
