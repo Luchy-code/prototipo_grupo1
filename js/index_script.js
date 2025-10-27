@@ -1,261 +1,216 @@
-const branchLocations = {
-  // Fijas
-  centro: { 
-    lat: -34.6037, 
-    lng: -58.3816, 
-    name: "Sucursal Centro", 
-    address: "Av. Corrientes 123, CABA",
-    mobile: false 
-  },
-  oeste: { 
-    lat: -34.6330, 
-    lng: -58.4830, 
-    name: "Sucursal Oeste", 
-    address: "Av. Rivadavia 7000, Flores",
-    mobile: false 
-  },
-  palermo: { 
-    lat: -34.5800, 
-    lng: -58.4200, 
-    name: "Sucursal Palermo", 
-    address: "Av. Santa Fe 3253, Palermo",
-    mobile: false 
-  },
-  belgrano: { 
-    lat: -34.5600, 
-    lng: -58.4500, 
-    name: "Sucursal Belgrano", 
-    address: "Av. Cabildo 1800, Belgrano",
-    mobile: false 
-  },
-  // Móviles
-  norte: { 
-    lat: -34.5458, 
-    lng: -58.4671, 
-    name: "Sucursal Norte", 
-    address: "Zona Norte, Buenos Aires",
-    mobile: true 
-  },
-  sur: { 
-    lat: -34.6355, 
-    lng: -58.4156, 
-    name: "Sucursal Sur", 
-    address: "Zona Sur, Buenos Aires", 
-    mobile: true 
-  },
-  movil1: { 
-    lat: -34.5900, 
-    lng: -58.4000, 
-    name: "Sucursal Móvil 1", 
-    address: "Zona Almagro/Caballito", 
-    mobile: true 
-  },
-  movil2: { 
-    lat: -34.6700, 
-    lng: -58.3700, 
-    name: "Sucursal Móvil 2", 
-    address: "Zona Avellaneda", 
-    mobile: true 
-  },
-  movil3: { 
-    lat: -34.5000, 
-    lng: -58.5000, 
-    name: "Sucursal Móvil 3", 
-    address: "Zona Vicente López", 
-    mobile: true 
-  }
-};
+document.addEventListener('DOMContentLoaded', () => {
 
-let map;
-let markers = {}; 
+  // --- 1. DATOS ORIGINALES ---
+  const centersData = [
+    { id: 1, name: "Centro Fijo - Caballito", type: "fijo", lat: -34.6105, lng: -58.4412 },
+    { id: 2, name: "Móvil 01 - Flores", type: "móvil", lat: -34.6266, lng: -58.4633 },
+    { id: 3, name: "Centro Fijo - Almagro", type: "fijo", lat: -34.6083, lng: -58.4203 },
+    { id: 4, name: "Centro Fijo - Villa Crespo", type: "fijo", lat: -34.5987, lng: -58.4437 },
+    { id: 5, name: "Móvil 02 - Nuñez", type: "móvil", lat: -34.5499, lng: -58.4682 },
+    { id: 6, name: "Centro Fijo - Saavedra", type: "fijo", lat: -34.5563, lng: -58.4899 },
+    { id: 7, name: "Móvil 03 - Villa Urquiza", type: "móvil", lat: -34.5721, lng: -58.4849 },
+    { id: 8, name: "Móvil 04 - Mataderos", type: "móvil", lat: -34.6496, lng: -58.5034 },
+    { id: 9, name: "Centro Fijo - Liniers", type: "fijo", lat: -34.6415, lng: -58.5202 },
+    { id: 10, name: "Centro Fijo - Parque Patricios", type: "fijo", lat: -34.6369, lng: -58.3934 },
+    { id: 11, name: "Móvil 05 - Barracas", type: "móvil", lat: -34.6425, lng: -58.3745 },
+    { id: 12, name: "Centro Fijo - Colegiales", type: "fijo", lat: -34.5778, lng: -58.4485 },
+    { id: 13, name: "Móvil 06 - Chacarita", type: "móvil", lat: -34.5870, lng: -58.4560 },
+    { id: 14, name: "Centro Fijo - Villa del Parque", type: "fijo", lat: -34.6029, lng: -58.4839 },
+    { id: 15, name: "Móvil 07 - Retiro", type: "móvil", lat: -34.5891, lng: -58.3779 }
+  ];
 
-function initMap() {
-  const mapContainer = document.getElementById('map');
-  
-  mapContainer.innerHTML = `
-    <div class="map-loading">
-      <div class="spinner-border text-primary mb-3" role="status">
-        <span class="visually-hidden">Cargando mapa...</span>
-      </div>
-      <p>Cargando mapa interactivo...</p>
-    </div>
-  `;
-
-  const loadMap = setTimeout(() => {
-    try {
-      if (typeof L === 'undefined') {
-        throw new Error('Leaflet no se cargó correctamente');
-      }
-      map = L.map('map').setView([-34.6037, -58.3816], 11);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 18
-      }).addTo(map);
-      addBranchMarkers();
-    } catch (error) {
-      console.error('Error cargando el mapa:', error);
-      showFallbackMap();
-    }
-  }, 100);
-
-  setTimeout(() => {
-    if (!map) {
-      clearTimeout(loadMap);
-      showFallbackMap();
-    }
-  }, 5000);
-}
-
-function addBranchMarkers() {
-  Object.keys(branchLocations).forEach(branchKey => {
-    const branch = branchLocations[branchKey];
+  // --- 1b. TRANSFORMACIÓN DEL ARREGLO (CON NUEVOS HORARIOS) ---
+  // Usamos .map() para crear un nuevo arreglo basado en el original
+  const centersDataActualizado = centersData.map(center => {
     
-    const iconHtml = branch.mobile ? 
-      '<div style="background-color: #dc3545; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid white;"><i class="fas fa-truck"></i></div>' :
-      '<div style="background-color: #198754; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid white;"><i class="fas fa-store"></i></div>';
+    // (Este es tu código de horarios, lo respeto tal cual lo pasaste)
+    const horario = center.type === 'fijo' 
+      ? 'Lunes a viernes: 8:00 - 18:00, Sábados: 9:00 - 14:00' 
+      : 'Lunes a viernes: 8:00 - 18:00, Sábados: 9:00 - 14:00';
 
-    const customIcon = L.divIcon({
-      html: iconHtml,
-      className: 'custom-marker',
-      iconSize: [30, 30],
-      iconAnchor: [15, 15]
-    });
-
-    const marker = L.marker([branch.lat, branch.lng], { icon: customIcon })
-      .addTo(map)
-      .bindPopup(`
-        <div class="text-center">
-          <h6>${branch.name}</h6>
-          <p class="mb-1">${branch.address}</p>
-          <small class="text-muted">${branch.mobile ? 'Sucursal Móvil' : 'Sucursal Fija'}</small>
-        </div>
-      `);
-
-    markers[branchKey] = marker;
-    updateBranchCard(branchKey, branch);
+    // Devolvemos un nuevo objeto con las propiedades originales
+    // y las nuevas (direccion y horario)
+    return {
+      ...center, // Copia todas las propiedades existentes (id, name, type, lat, lng)
+      direccion: 'Dirección pendiente', // Agregamos la dirección (con marcador de posición)
+      horario: horario // Agregamos el horario calculado
+    };
   });
-}
 
-function updateBranchCard(branchKey, branch) {
-  const card = document.getElementById(`card-${branchKey}`);
-  const addressElement = document.getElementById(`${branchKey}-address`);
-  
-  if (addressElement) {
-    if (branch.mobile) {
-      addressElement.textContent = `Posición actual: ${branch.address} (Lat: ${branch.lat.toFixed(4)}, Lng: ${branch.lng.toFixed(4)})`;
-    } else {
-      addressElement.textContent = `${branch.address} (Lat: ${branch.lat.toFixed(4)}, Lng: ${branch.lng.toFixed(4)})`;
-    }
-  }
-}
 
-function showFallbackMap() {
-  const mapContainer = document.getElementById('map');
-  mapContainer.innerHTML = `
-    <a href="https://www.google.com/maps/search/sucursales/@-34.6037,-58.3816,11z" target="_blank" class="fallback-map">
-      <i class="fas fa-map-marked-alt fa-3x mb-3"></i>
-      <h4>Ver nuestras sucursales en Google Maps</h4>
-      <p class="mb-0">Haz clic para abrir el mapa</p>
-      <div class="mt-3">
-        <p><strong>Sucursal Centro:</strong> Av. Corrientes 123, CABA</p>
-        <p><strong>Sucursal Norte:</strong> Zona Norte, Buenos Aires (Móvil)</p>
-        <p><strong>Sucursal Sur:</strong> Zona Sur, Buenos Aires (Móvil)</p>
-      </div>
-    </a>
-  `;
-}
+  // --- 2. INICIALIZACIÓN DEL MAPA ---
+  const map = L.map('map').setView([-34.6037, -58.3816], 12);
 
-// FUNCIÓN: Para normalizar texto (quitar tildes y minúsculas)
-function normalizeString(str) {
-  return str
-    .toLowerCase()
-    .normalize("NFD") // Descompone caracteres (ej: 'ó' -> 'o' + '´')
-    .replace(/[\u0300-\u036f]/g, ""); // Quita los acentos
-}
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
-// FUNCIÓN DE FILTRO
-function applyFilters() {
-  // Usa normalizeString en la consulta de búsqueda
-  const nameQuery = normalizeString(document.getElementById('filterName').value);
-  const typeQuery = document.getElementById('filterType').value;
-  const noResultsMsg = document.getElementById('noResults');
-  let matchCount = 0;
+  // --- 2b. DEFINICIÓN DE ICONOS (¡CAMBIO AÑADIDO!) ---
+  const fixedIcon = L.divIcon({
+    html: '<i class="fa-solid fa-building fa-2x" style="color: #0d6efd;"></i>', // Icono Edificio (azul)
+    className: '', // Clase vacía para evitar estilos por defecto de Leaflet
+    iconSize: [30, 42], // Tamaño del área del icono
+    iconAnchor: [15, 42] // Punto del icono que corresponde a la coordenada (abajo al centro)
+  });
 
-  Object.keys(branchLocations).forEach(branchKey => {
-    const branch = branchLocations[branchKey];
-    const card = document.getElementById(`card-${branchKey}`);
-    const marker = markers[branchKey]; 
+  const mobileIcon = L.divIcon({
+    html: '<i class="fa-solid fa-car-side fa-2x" style="color: #198754;"></i>', // Icono Auto (verde)
+    className: '',
+    iconSize: [30, 42],
+    iconAnchor: [15, 42]
+  });
 
-    if (!card || !marker) return; 
 
-    // Usa normalizeString en el nombre de la sucursal para comparar
-    const normalizedBranchName = normalizeString(branch.name);
-    const nameMatch = normalizedBranchName.includes(nameQuery);
+  // --- 3. VARIABLES GLOBALES ---
+  const listElement = document.getElementById('center-list');
+  const filterSelect = document.getElementById('filter-type');
+  const resetButton = document.getElementById('reset-view'); 
+
+  const allMarkersGroup = L.featureGroup().addTo(map);
+  const selectedMarkerGroup = L.featureGroup().addTo(map);
+
+  const markers = {};
+  const listItems = {};
+
+  // --- 4. POBLAR LISTA Y MAPA ---
+  centersDataActualizado.forEach(center => {
+
+    const li = document.createElement('li');
+    li.textContent = center.name;
+    li.dataset.id = center.id;
+    li.dataset.type = center.type;
+    listElement.appendChild(li);
+    listItems[center.id] = li;
+
+    // --- ¡CAMBIO APLICADO AQUÍ! ---
+    // 1. Decidimos qué icono usar
+    const iconToUse = center.type === 'fijo' ? fixedIcon : mobileIcon;
     
-    let typeMatch = false;
-    if (typeQuery === 'todos') {
-      typeMatch = true;
-    } else if (typeQuery === 'fijo' && !branch.mobile) {
-      typeMatch = true;
-    } else if (typeQuery === 'movil' && branch.mobile) {
-      typeMatch = true;
-    }
+    // 2. Pasamos el icono al crear el marcador
+    const marker = L.marker([center.lat, center.lng], { icon: iconToUse }); 
+    // --- FIN DEL CAMBIO ---
 
-    if (nameMatch && typeMatch) {
-      card.classList.add('active');
-      if (marker.getElement()) {
-        marker.getElement().classList.add('active');
-      }
-      matchCount++;
-    } else {
-      card.classList.remove('active');
-      if (marker.getElement()) {
-        marker.getElement().classList.remove('active');
-        }
+    marker.myCustomId = center.id;
+    marker.myCustomType = center.type;
+    
+    marker.bindPopup(
+      `<b>${center.name}</b><br>` +
+      `Dirección: ${center.direccion}<br>` +
+      `Horario: ${center.horario}<br>` +
+      `Tipo: ${center.type}`
+    );
+
+    allMarkersGroup.addLayer(marker);
+    markers[center.id] = marker;
+
+    marker.on('click', (e) => {
+      selectCenter(e.target.myCustomId);
+    });
+  });
+
+  if (centersDataActualizado.length > 0) {
+    map.fitBounds(allMarkersGroup.getBounds());
+  }
+
+  // --- 5. EVENT LISTENERS ---
+
+  listElement.addEventListener('click', (e) => {
+    if (e.target && e.target.nodeName === 'LI') {
+      const id = e.target.dataset.id;
+      selectCenter(id);
     }
   });
 
-  if (matchCount === 0 && (nameQuery.length > 0 || typeQuery !== 'todos')) {
-    noResultsMsg.style.display = 'block';
-  } else {
-    noResultsMsg.style.display = 'none';
-  }
-}
+  filterSelect.addEventListener('change', (e) => {
+    if (e.target.value) {
+      applyFilter(e.target.value);
+    }
+  });
 
-document.addEventListener('DOMContentLoaded', function() {
-  initMap();
-  
-  const loginForm = document.getElementById('loginForm');
-  if (loginForm) {
-    loginForm.addEventListener('submit', function(event) {
-      if (!loginForm.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
+  resetButton.addEventListener('click', resetView);
+
+  // --- 6. FUNCIONES PRINCIPALES ---
+
+  function selectCenter(id) {
+    Object.values(listItems).forEach(item => {
+      if (item.dataset.id == id) {
+        item.classList.remove('hidden');
+        item.classList.add('selected');
+      } else {
+        item.classList.add('hidden');
+        item.classList.remove('selected');
       }
-      loginForm.classList.add('was-validated');
     });
-  }
-  
-  const filterName = document.getElementById('filterName');
-  const filterType = document.getElementById('filterType');
-  const clearFilters = document.getElementById('clearFilters');
 
-  if(filterName) {
-    filterName.addEventListener('input', applyFilters);
+    if (map.hasLayer(allMarkersGroup)) {
+      map.removeLayer(allMarkersGroup);
+    }
+    selectedMarkerGroup.clearLayers();
+
+    const marker = markers[id];
+    if (marker) {
+      selectedMarkerGroup.addLayer(marker);
+      map.setView(marker.getLatLng(), 15);
+      marker.openPopup();
+    }
+
+    filterSelect.selectedIndex = 0;
   }
-  if(filterType) {
-    filterType.addEventListener('change', applyFilters);
-  }
-  if(clearFilters) {
-    clearFilters.addEventListener('click', function() {
-      document.getElementById('filterForm').reset(); 
-      applyFilters(); 
+
+  function applyFilter(filterValue) {
+    let visibleBounds = [];
+
+    selectedMarkerGroup.clearLayers();
+    allMarkersGroup.clearLayers();
+
+    Object.values(listItems).forEach(item => {
+      if (item.dataset.type === filterValue) {
+        item.classList.remove('hidden');
+        item.classList.remove('selected');
+      } else {
+        item.classList.add('hidden');
+        item.classList.remove('selected');
+      }
     });
-  }
-});
 
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden && !map) {
-    initMap();
+    Object.values(markers).forEach(marker => {
+      if (marker.myCustomType === filterValue) {
+        allMarkersGroup.addLayer(marker);
+        visibleBounds.push(marker.getLatLng());
+      }
+    });
+
+    if (!map.hasLayer(allMarkersGroup)) {
+      map.addLayer(allMarkersGroup);
+    }
+
+    if (visibleBounds.length > 0) {
+      map.fitBounds(L.latLngBounds(visibleBounds));
+    } else {
+      map.setView([-34.6037, -58.3816], 12);
+    }
   }
+
+  function resetView() {
+    Object.values(listItems).forEach(item => {
+      item.classList.remove('hidden');
+      item.classList.remove('selected');
+    });
+
+    selectedMarkerGroup.clearLayers();
+    allMarkersGroup.clearLayers();
+
+    Object.values(markers).forEach(marker => {
+      allMarkersGroup.addLayer(marker);
+    });
+
+    if (!map.hasLayer(allMarkersGroup)) {
+      map.addLayer(allMarkersGroup);
+    }
+
+    map.fitBounds(allMarkersGroup.getBounds());
+
+    filterSelect.selectedIndex = 0; 
+  }
+
 });
