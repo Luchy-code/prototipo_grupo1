@@ -1,30 +1,42 @@
-
 body {
   padding-top: 70px; /* espacio para navbar fijo */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .section-title {
   text-align: center;
   margin-bottom: 2rem;
   position: relative;
 }
+
 .section-title::after {
   content: '';
   display: block;
   width: 60px;
   height: 3px;
-  background-color: #1d0ac5; 
+  background-color: #1d0ac5;
   margin: 10px auto 0;
   border-radius: 2px;
 }
+
 .card-img-top {
   height: 200px;
   object-fit: cover;
 }
+
 /* Transición suave para las tarjetas */
 .card {
   transition: all 0.2s ease-in-out;
 }
+
+/* Resalte de tarjeta */
+.card.active {
+  border-color: #0d6efd;
+  border-width: 3px;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.6);
+  transform: scale(1.03);
+}
+
 #map {
   height: 400px;
   width: 100%;
@@ -32,6 +44,7 @@ body {
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
 }
+
 footer {
   background-color: #f8f9fa;
   padding: 1rem 0;
@@ -39,6 +52,7 @@ footer {
   font-size: 0.9rem;
   color: #6c757d;
 }
+
 .mobile-indicator {
   background-color: #ffc107;
   color: #000;
@@ -47,20 +61,16 @@ footer {
   font-size: 0.8rem;
   font-weight: bold;
 }
-/* Resalte de tarjeta más fuerte */
-.card.active {
-  border-color: #0d6efd;
-  border-width: 3px; /* Borde más grueso */
-  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.6); /* Sombra más fuerte y difusa */
-  transform: scale(1.03); /* Ligeramente más grande */
-}
+
 .leaflet-popup-content-wrapper {
   background: #fff;
   border-radius: 6px;
 }
+
 .leaflet-popup-content {
   margin: 10px;
 }
+
 .distance-info {
   background: #e7f3ff;
   padding: 10px;
@@ -68,19 +78,21 @@ footer {
   margin-top: 10px;
   font-size: 0.9rem;
 }
-/* Transición para el marcador */
+
 .leaflet-marker-icon {
   border: 2px solid transparent;
-  border-radius: 50%; /* Asegura que el borde sea circular */
-  transition: all 0.2s ease-in-out; /* Transición para el marcador */
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
 }
-/* Resalte de marcador más fuerte */
+
 .leaflet-marker-icon.active {
   border-color: #0d6efd;
-  border-width: 3px; /* Borde más grueso */
-  box-shadow: 0 0 0 5px rgba(13, 110, 253, 0.7); /* Sombra exterior más grande */
-  z-index: 1000 !important; /* Asegura que esté al frente */
+  border-width: 3px;
+  box-shadow: 0 0 0 5px rgba(13, 110, 253, 0.7);
+  z-index: 1000 !important;
 }
+
+
 .map-loading {
   display: flex;
   align-items: center;
@@ -88,6 +100,7 @@ footer {
   height: 100%;
   flex-direction: column;
 }
+
 .fallback-map {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   height: 100%;
@@ -99,46 +112,54 @@ footer {
   flex-direction: column;
   text-decoration: none;
 }
+
 .fallback-map:hover {
   color: white;
   text-decoration: none;
   opacity: 0.9;
 }
+
 .carousel-image {
-  height: 500px; /* Carrusel más grande */
+  height: 500px;
   object-fit: cover;
 }
+
 .navbar-brand img {
   max-height: 40px;
 }
+
 .carousel-caption {
   background: rgba(0,0,0,0.6);
   border-radius: 10px;
   padding: 20px;
 }
+
 .carousel-control-prev,
 .carousel-control-next {
   width: 5%;
 }
 
-
-/* Todos los estilos aplican solo dentro de .estilosMapa */
 .estilosMapa body,
 .estilosMapa html {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Arial, sans-serif;
   overflow: hidden;
 }
 
-/* Contenedor principal usando Flexbox */
+.leaflet-marker-icon.active {
+  opacity: 1 !important;
+  transform: scale(1.15);
+  border: 2px solid #0d6efd;
+  box-shadow: 0 0 12px rgba(13, 110, 253, 0.6);
+  z-index: 9999 !important;
+}
+
 .estilosMapa .container {
   display: flex;
   height: 100vh;
 }
 
-/* Barra lateral izquierda */
 .estilosMapa #sidebar {
   width: 30%;
   max-width: 350px;
@@ -153,7 +174,6 @@ footer {
   margin-top: 0;
 }
 
-/* --- ESTILOS PARA EL NUEVO BOTÓN --- */
 .estilosMapa #reset-view {
   display: block;
   width: 100%;
@@ -165,14 +185,13 @@ footer {
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 .estilosMapa #reset-view:hover {
   background-color: #98b300;
 }
 
-
-/* --- ESTILOS PARA EL FILTRO --- */
 .estilosMapa #sidebar label {
   display: block;
   font-weight: bold;
@@ -192,14 +211,12 @@ footer {
 }
 
 
-/* Lista de centros */
 .estilosMapa #center-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-/* Elementos de la lista */
 .estilosMapa #center-list li {
   padding: 12px 15px;
   border-bottom: 1px solid #ddd;
@@ -211,7 +228,6 @@ footer {
   background-color: #e9e9e9;
 }
 
-/* --- Clases de estado (manejadas por JS) --- */
 .estilosMapa #center-list li.selected {
   background-color: #d0eaff;
   font-weight: bold;
@@ -226,4 +242,57 @@ footer {
 .estilosMapa #map {
   width: 70%;
   height: 100%;
+}
+
+
+.list-item-button {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.list-item-button:hover {
+  background-color: #f1f5ff;
+}
+
+li.selected .list-item-button {
+  background-color: #d0eaff;
+  color: #004aad;
+  font-weight: bold;
+  border-color: #0d6efd;
+}
+
+.panel-desplegable {
+  display: none;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  animation: slideDown 0.25s ease;
+}
+
+.panel-desplegable.open {
+  display: block;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
